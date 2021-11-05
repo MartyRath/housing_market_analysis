@@ -1,8 +1,8 @@
 import pandas as pd
-x = pd.read_csv(r'C:\Users\User\Desktop\UCD DATA\Property Price Register Datasets\Property_Price_Register_Ireland-28-05-2021.csv')
-#print(x.head())
+file = pd.read_csv("C:\\Users\\User\\Desktop\\PPR.csv", encoding='latin1')
+df = pd.DataFrame(file)
+print(df.head())
 
-df=pd.DataFrame(x)
 #print(df.head())
 #print(df.columns)
 #print(df.info())
@@ -10,7 +10,7 @@ df=pd.DataFrame(x)
 
 #df.shape - how many rows, columns
 #df.values - data values in 2D Numpy array
-#df.columns - Shows columns
+#df.columns # Shows columns
 #f.index
 
-print(df['SALE_PRICE'])
+#print(df['SALE_PRICE'])
