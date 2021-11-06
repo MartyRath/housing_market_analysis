@@ -1,16 +1,19 @@
+#importing necessary packages
 import pandas as pd
-file = pd.read_csv("C:\\Users\\User\\Desktop\\PPR.csv", encoding='latin1')
+import numpy as np
+import matplotlib as mplt
+import seaborn as sb
+
+#importing the csv dataset and converting to dataframe using pandas
+file = pd.read_csv(r'C:\Users\User\Desktop\UCD DATA\Property Price Register Datasets\Property_Price_Register_Ireland-28-05-2021.csv')
 df = pd.DataFrame(file)
+#print(df.head())
 print(df.head())
 
-#print(df.head())
-#print(df.columns)
-#print(df.info())
-#print(df.describe())
+#sale_price = df['Price ()']
+#county = df['County']
 
-#df.shape - how many rows, columns
-#df.values - data values in 2D Numpy array
-#df.columns # Shows columns
-#f.index
+#import matplotlib.pyplot as plt
 
-#print(df['SALE_PRICE'])
+#plt.plot(sale_price, county)
+#plt.show()
