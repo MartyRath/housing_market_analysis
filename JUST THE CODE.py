@@ -25,12 +25,10 @@ plt.xlabel('Year')
 plt.ylabel('Sale Price (€)')
 plt.title('Average Sale Price Per Year')
 plt.yticks([200000, 220000, 240000, 260000, 280000, 300000, 320000], ['200K', '220K', '240K', '260K', '280K', '300K', '320K'])
-plt.show()
-
-#HAHA = df2020.groupby('MONTH')['SALE_PRICE'].agg(np.mean)
-#print(HAHA)
-#plt.plot(HAHA)
 #plt.show()
+print(df.head())
+
+plt.show()
 
 #COUNTY PRICE STATS
 #COUNTY_PRICE_STATS = df2020.groupby('COUNTY')['SALE_PRICE'].agg([np.min, np.max, np.mean, np.median])
