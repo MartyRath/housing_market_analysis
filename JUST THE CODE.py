@@ -10,25 +10,28 @@ df.drop(['PROPERTY_SIZE_DESC'],axis=1,inplace=True)
 df['PROPERTY_DESC'].replace({'Teach/�ras�n C�naithe Nua': 'New Dwelling house /Apartment', 'Teach/?ras?n C?naithe Nua': 'New Dwelling house /Apartment', 'Teach/�ras�n C�naithe Ath�imhe': 'Second-Hand Dwelling house /Apartment'}, inplace=True)
 df['SALE_DATE'] = pd.to_datetime(df['SALE_DATE'])
 df['YEAR'], df['MONTH'] = df['SALE_DATE'].dt.year , df['SALE_DATE'].dt.month
-SALE_PRICE_STATS = df.groupby('YEAR')['SALE_PRICE'].agg([np.min, np.max, np.mean, np.median])
 
-#print(df.head())
+#################################
 df2020= df[df['YEAR'] == 2020]
-#print(df2020.head())
+SALE_STATS_MONTH = df2020.groupby('MONTH')['SALE_PRICE'].agg([np.min, np.max, np.mean, np.median])
 
-mean = SALE_PRICE_STATS['mean']
+mean = SALE_STATS_MONTH['mean']
 for unique_values in df:
-    year=(df['YEAR'].unique())
+    month=(df['MONTH'].unique())
 
-plt.scatter(year, mean)
-plt.xlabel('Year')
+#print(mean)
+#plt.scatter(x=year, y=mean, c=colours)
+plt.bar(x=month, height=mean, bottom=0, color=['orange'])
+plt.ylim(260000, 360000)
+plt.xlabel('Month')
 plt.ylabel('Sale Price (€)')
-plt.title('Average Sale Price Per Year')
-plt.yticks([200000, 220000, 240000, 260000, 280000, 300000, 320000], ['200K', '220K', '240K', '260K', '280K', '300K', '320K'])
-#plt.show()
-print(df.head())
-
+plt.title('Average Monthly Sale Price 2020')
+plt.yticks([260000, 280000, 300000, 320000, 340000, 360000], ['260K', '280K', '300K', '320K', '340K', '360K'])
+plt.xticks([1,2,3,4,5,6,7,8,9,10,11,12], ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'])
 plt.show()
+#print(df.head())
+
+#plt.show()
 
 #COUNTY PRICE STATS
 #COUNTY_PRICE_STATS = df2020.groupby('COUNTY')['SALE_PRICE'].agg([np.min, np.max, np.mean, np.median])
