@@ -5,12 +5,13 @@ import matplotlib.pyplot as plt
 import seaborn as sb
 
 #importing the csv dataset and converting to dataframe using pandas
-df = pd.read_csv(r'C:\Users\User\Desktop\UCD DATA\Test\Property_Price_Register_Ireland-28-05-2021.csv', index_col=0)
+df = pd.read_csv(r'C:\Users\User\Desktop\UCD DATA\Test\Property_Price_Register_Ireland-28-05-2021.csv')
 
 #Dataframe was truncated to width 80 in Pycharm, so found the following options here to get a better overview: https://pandas.pydata.org/pandas-docs/stable/user_guide/options.html
 pd.options.display.width= None
 pd.options.display.max_columns= None
 
+print(df.columns)
 #print(df.head())
 #print(df.shape)
 #print(df.describe())
