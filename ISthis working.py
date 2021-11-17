@@ -50,3 +50,11 @@ missing_values.plot.bar()
 plt.show()
 ###################################################################################
 #More or less sales in cheaper month
+###################################################
+#CHEAPEST LEINSTER COUNTIES
+df.set_index('COUNTY', inplace=True)
+LEINSTER = df.loc[['Dublin', 'Laois', 'Meath', 'Kilkenny', 'Carlow', 'Wicklow', 'Wexford', 'Longford', 'Offaly', 'Kildare', 'Louth', 'Westmeath']]
+LEINSTER_AVG = LEINSTER.groupby('COUNTY')['SALE_PRICE'].agg(np.mean)
+counties=LEINSTER_AVG.index.tolist()
+plt.scatter(x=counties, y=LEINSTER_AVG, color=['green'])
+plt.show()
