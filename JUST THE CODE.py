@@ -10,32 +10,33 @@ df.drop(['PROPERTY_SIZE_DESC'],axis=1,inplace=True)
 df['PROPERTY_DESC'].replace({'Teach/�ras�n C�naithe Nua': 'New Dwelling house /Apartment', 'Teach/?ras?n C?naithe Nua': 'New Dwelling house /Apartment', 'Teach/�ras�n C�naithe Ath�imhe': 'Second-Hand Dwelling house /Apartment'}, inplace=True)
 df['SALE_DATE'] = pd.to_datetime(df['SALE_DATE'])
 df['YEAR'], df['MONTH'] = df['SALE_DATE'].dt.year , df['SALE_DATE'].dt.month
-
 #################################
 df2020= df[df['YEAR'] == 2020]
-SALE_STATS_MONTH = df2020.groupby('MONTH')['SALE_PRICE'].agg([np.min, np.max, np.mean, np.median])
 
-mean = SALE_STATS_MONTH['mean']
-for unique_values in df:
-    month=(df['MONTH'].unique())
+df.drop(['Kerry', 'Clare'],axis=0,inplace=False)
 
-#print(mean)
-#plt.scatter(x=year, y=mean, c=colours)
-plt.bar(x=month, height=mean, bottom=0, color=['orange'])
-plt.ylim(260000, 360000)
-plt.xlabel('Month')
+print(df.head())
+#index = [4,6,7,8,9,10,12,14,15,17,20,22,23,24]
+#LEINSTER=np.delete(county, index)
+#df['LEINSTER'] =
+#SALE_STATS_COUNTY = df.groupby('COUNTY')['SALE_PRICE'].agg([np.min, np.max, np.mean, np.median])
+#print(SALE_STATS_COUNTY)
+
+#print(df2020.head())
+#mean = SALE_STATS_COUNTY['mean']
+#for unique_values in df:
+ #   county=(df['COUNTY'].unique())
+
+#index = [4,6,7,8,9,10,12,14,15,17,20,22,23,24]
+#LEINSTER=np.delete(county, index)
+
+#SALE_STATS_LEINSTER = df.groupby('LEINSTER')['SALE_PRICE'].agg(np.mean)
+
+
+#plt.scatter(x=LEINSTER, y=mean, color=['green'])
+plt.xlabel('County')
 plt.ylabel('Sale Price (€)')
-plt.title('Average Monthly Sale Price 2020')
-plt.yticks([260000, 280000, 300000, 320000, 340000, 360000], ['260K', '280K', '300K', '320K', '340K', '360K'])
-plt.xticks([1,2,3,4,5,6,7,8,9,10,11,12], ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'])
-plt.show()
-#print(df.head())
-
+plt.title('Average Sale Price Per County')
+#plt.yticks([200000, 220000, 240000, 260000, 280000, 300000, 320000], ['200K', '220K', '240K', '260K', '280K', '300K', '320K'])
 #plt.show()
 
-#COUNTY PRICE STATS
-#COUNTY_PRICE_STATS = df2020.groupby('COUNTY')['SALE_PRICE'].agg([np.min, np.max, np.mean, np.median])
-#somean= COUNTY_PRICE_STATS['mean'].tolist()
-#print(somean)
-#plt.hist(somean, bins=32)
-#plt.show()

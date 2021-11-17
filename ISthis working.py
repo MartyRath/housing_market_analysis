@@ -1,8 +1,8 @@
-#CHART #1 House prices are rising year by year, buy now
+#CHART #1 House prices are rising year by year, buy now. Think adding GDP rise per year too
 SALE_PRICE_STATS = df.groupby('YEAR')['SALE_PRICE'].agg([np.min, np.max, np.mean, np.median])
 
 mean = SALE_PRICE_STATS['mean']
-for unique_values in df:
+for unique_values in df
     year=(df['YEAR'].unique())
 
 plt.bar(x=year, height=mean, color=['green'])
@@ -45,3 +45,8 @@ plt.yticks([260000, 280000, 300000, 320000, 340000, 360000], ['260K', '280K', '3
 plt.xticks([1,2,3,4,5,6,7,8,9,10,11,12], ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'])
 #plt.show()
 ########################################################################
+#Super quick missing values bar chart
+missing_values.plot.bar()
+plt.show()
+###################################################################################
+#More or less sales in cheaper month
