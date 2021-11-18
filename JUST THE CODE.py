@@ -10,13 +10,22 @@ df.drop(['PROPERTY_SIZE_DESC'],axis=1,inplace=True)
 df['PROPERTY_DESC'].replace({'Teach/�ras�n C�naithe Nua': 'New Dwelling house /Apartment', 'Teach/?ras?n C?naithe Nua': 'New Dwelling house /Apartment', 'Teach/�ras�n C�naithe Ath�imhe': 'Second-Hand Dwelling house /Apartment'}, inplace=True)
 df['SALE_DATE'] = pd.to_datetime(df['SALE_DATE'])
 df['YEAR'], df['MONTH'] = df['SALE_DATE'].dt.year , df['SALE_DATE'].dt.month
+DFLeinster = df[df['COUNTY'].isin(['Dublin', 'Laois', 'Meath', 'Kilkenny', 'Carlow', 'Wicklow', 'Wexford', 'Longford', 'Offaly', 'Kildare', 'Louth', 'Westmeath'])]
+
 #################################
 df2020= df[df['YEAR'] == 2020]
 ###################################################
-df.set_index('COUNTY', inplace=True)
-LEINSTER = df.loc[['Dublin', 'Laois', 'Meath', 'Kilkenny', 'Carlow', 'Wicklow', 'Wexford', 'Longford', 'Offaly', 'Kildare', 'Louth', 'Westmeath']]
-LEINSTER_AVG = LEINSTER.groupby('COUNTY')['SALE_PRICE'].agg(np.mean)
-counties=LEINSTER_AVG.index.tolist()
-plt.scatter(x=counties, y=LEINSTER_AVG, color=['green'])
-plt.show()
+#df.set_index('COUNTY', inplace=True)
+#LEINSTER = df.loc[['Dublin', 'Laois', 'Meath', 'Kilkenny', 'Carlow', 'Wicklow', 'Wexford', 'Longford', 'Offaly', 'Kildare', 'Louth', 'Westmeath']]
+#LEINSTER_AVG = LEINSTER.groupby('COUNTY')['SALE_PRICE'].agg(np.mean)
+#counties=LEINSTER_AVG.index.tolist()
+#plt.scatter(x=counties, y=LEINSTER_AVG, color=['green'])
+#plt.show()
+
+#fig, ax = plt.subplots()
+#ax.plot(df2020['SALE_DATE'], df2020['SALE_PRICE'])
+#plt.show()
+
+Leinster = df['COUNTY'].isin(['Dublin', 'Laois', 'Meath', 'Kilkenny', 'Carlow', 'Wicklow', 'Wexford', 'Longford', 'Offaly', 'Kildare', 'Louth', 'Westmeath'])
+DFLEINSTER = df[Leinster]
 
