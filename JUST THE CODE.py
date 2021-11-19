@@ -29,3 +29,22 @@ df2020= df[df['YEAR'] == 2020]
 Leinster = df['COUNTY'].isin(['Dublin', 'Laois', 'Meath', 'Kilkenny', 'Carlow', 'Wicklow', 'Wexford', 'Longford', 'Offaly', 'Kildare', 'Louth', 'Westmeath'])
 DFLEINSTER = df[Leinster]
 
+#print(DFLEINSTER.sort_values('SALE_PRICE', ascending=False))
+#print(DFLEINSTER[DFLEINSTER['SALE_PRICE']<10000])
+#print(DFLEINSTER['SALE_PRICE'].min())
+#Wexford= DFLEINSTER[DFLEINSTER['COUNTY']=='Wexford']
+#Wexford['SALE_PRICE'].min())
+#df2020[(df2020['COUNTY']=='Wexford') & (df2020['SALE_PRICE']<100000)]) #In 2020 there were 258 houses sold in Wexford under 100K
+Wexford=DFLEINSTER[DFLEINSTER['COUNTY']=='Wexford']
+#(Wexford.sort_values('SALE_PRICE')) #THIS WORKS! Just not with Dublin, consider dropping DUB anyway
+cheap=DFLEINSTER[DFLEINSTER['SALE_PRICE']<100000]
+cheap2020 = DFLEINSTER[(DFLEINSTER['YEAR']==2020) & (DFLEINSTER['SALE_PRICE']<100000)]
+#(cheap2020[['COUNTY','SALE_PRICE']].sort_values('SALE_PRICE'))
+#print(df2020['SALE_PRICE'].mean())
+LEINSTER2020=DFLEINSTER[DFLEINSTER['YEAR']==2020]
+#(LEINSTER2020['SALE_PRICE'].mean())
+def iqr(column):
+    return column.quantile(0.75) - column.quantile(0.25)
+print(LEINSTER2020['SALE_PRICE'].agg(iqr)) #because there's outliers in this data, IQR is preferred over standard deviation. Shows where the bulk of the data lies
+print(LEINSTER2020['SALE_PRICE'].median())
+cumstatsstop
