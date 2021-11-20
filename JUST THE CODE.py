@@ -4,6 +4,10 @@ import matplotlib.pyplot as plt
 df = pd.read_csv(r'C:\Users\User\Desktop\UCD DATA\Test\Property_Price_Register_Ireland-28-05-2021.csv')
 pd.options.display.width= None
 pd.options.display.max_columns= None
+
+
+
+df.drop_duplicates(subset=['SALE_DATE', 'ADDRESS']) #Make sure no duplicate inputs
 df.drop(['POSTAL_CODE', 'ADDRESS', 'IF_MARKET_PRICE', 'IF_VAT_EXCLUDED'],axis=1,inplace=True)
 missing_values = df.isnull().sum()
 df.drop(['PROPERTY_SIZE_DESC'],axis=1,inplace=True)
@@ -11,9 +15,10 @@ df['PROPERTY_DESC'].replace({'Teach/�ras�n C�naithe Nua': 'New Dwelling ho
 df['SALE_DATE'] = pd.to_datetime(df['SALE_DATE'])
 df['YEAR'], df['MONTH'] = df['SALE_DATE'].dt.year , df['SALE_DATE'].dt.month
 DFLeinster = df[df['COUNTY'].isin(['Dublin', 'Laois', 'Meath', 'Kilkenny', 'Carlow', 'Wicklow', 'Wexford', 'Longford', 'Offaly', 'Kildare', 'Louth', 'Westmeath'])]
-
 #################################
-df2020= df[df['YEAR'] == 2020]
+df2020= df[df['YEAR'] == 2020] #conider for whole df, <=, as whole years instead of counting half of 2021
+#twentytwentyloc =df.set_index('SALE_DATE') #ALT using loc, useful for range/partial dates
+#twentytwentyloc.loc['2020'] #twentytwentyloc.loc['2010':'2020']
 ###################################################
 #df.set_index('COUNTY', inplace=True)
 #LEINSTER = df.loc[['Dublin', 'Laois', 'Meath', 'Kilkenny', 'Carlow', 'Wicklow', 'Wexford', 'Longford', 'Offaly', 'Kildare', 'Louth', 'Westmeath']]
@@ -27,7 +32,7 @@ df2020= df[df['YEAR'] == 2020]
 #plt.show()
 
 Leinster = df['COUNTY'].isin(['Dublin', 'Laois', 'Meath', 'Kilkenny', 'Carlow', 'Wicklow', 'Wexford', 'Longford', 'Offaly', 'Kildare', 'Louth', 'Westmeath'])
-DFLEINSTER = df[Leinster]
+DFLEINSTER = df[Leinster] # SEE ARGUMENT AGAINST LOC
 
 #print(DFLEINSTER.sort_values('SALE_PRICE', ascending=False))
 #print(DFLEINSTER[DFLEINSTER['SALE_PRICE']<10000])
@@ -45,6 +50,17 @@ LEINSTER2020=DFLEINSTER[DFLEINSTER['YEAR']==2020]
 #(LEINSTER2020['SALE_PRICE'].mean())
 def iqr(column):
     return column.quantile(0.75) - column.quantile(0.25)
-print(LEINSTER2020['SALE_PRICE'].agg(iqr)) #because there's outliers in this data, IQR is preferred over standard deviation. Shows where the bulk of the data lies
-print(LEINSTER2020['SALE_PRICE'].median())
-cumstatsstop
+#print(LEINSTER2020['SALE_PRICE'].agg(iqr)) #because there's outliers in this data, IQR is preferred over standard deviation. Shows where the bulk of the data lies
+#print(LEINSTER2020['SALE_PRICE'].median())
+
+#print(DFLEINSTER.drop_duplicates(subset='COUNTY')) # See individual counties. (for multiple conditions, pass list [] to subset)
+
+
+cheapzz = DFLEINSTER[DFLEINSTER['SALE_PRICE']<100000]
+cheapzz['COUNTY'].value_counts(sort=True) # how many sold per county under 100K
+PPC_under100K = cheapzz['COUNTY'].value_counts(normalize=True) #proportions houses sold under 100K per county
+
+DFLEINSTER[DFLEINSTER['COUNTY']=='Dublin']['SALE_PRICE'].mean() #Average price in Dublin of houses sold
+mean_sale=DFLEINSTER.groupby('COUNTY')['SALE_PRICE'].mean() #AVG per county (can use agg multiple functions, can add list to county or sale price bits)
+mean_sale.sort_values(ascending=False) #Sorting average high to low
+
