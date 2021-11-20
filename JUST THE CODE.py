@@ -4,9 +4,6 @@ import matplotlib.pyplot as plt
 df = pd.read_csv(r'C:\Users\User\Desktop\UCD DATA\Test\Property_Price_Register_Ireland-28-05-2021.csv')
 pd.options.display.width= None
 pd.options.display.max_columns= None
-
-
-
 df.drop_duplicates(subset=['SALE_DATE', 'ADDRESS']) #Make sure no duplicate inputs
 df.drop(['POSTAL_CODE', 'ADDRESS', 'IF_MARKET_PRICE', 'IF_VAT_EXCLUDED'],axis=1,inplace=True)
 missing_values = df.isnull().sum()
@@ -15,8 +12,10 @@ df['PROPERTY_DESC'].replace({'Teach/�ras�n C�naithe Nua': 'New Dwelling ho
 df['SALE_DATE'] = pd.to_datetime(df['SALE_DATE'])
 df['YEAR'], df['MONTH'] = df['SALE_DATE'].dt.year , df['SALE_DATE'].dt.month
 DFLeinster = df[df['COUNTY'].isin(['Dublin', 'Laois', 'Meath', 'Kilkenny', 'Carlow', 'Wicklow', 'Wexford', 'Longford', 'Offaly', 'Kildare', 'Louth', 'Westmeath'])]
+
+df=df[df['YEAR'] <= 2020] #more rounded results, for calculations like cheapest month, as not including unfinished year 2021
 #################################
-df2020= df[df['YEAR'] == 2020] #conider for whole df, <=, as whole years instead of counting half of 2021
+df2020= df[df['YEAR'] == 2020]
 #twentytwentyloc =df.set_index('SALE_DATE') #ALT using loc, useful for range/partial dates
 #twentytwentyloc.loc['2020'] #twentytwentyloc.loc['2010':'2020']
 ###################################################
@@ -63,4 +62,5 @@ PPC_under100K = cheapzz['COUNTY'].value_counts(normalize=True) #proportions hous
 DFLEINSTER[DFLEINSTER['COUNTY']=='Dublin']['SALE_PRICE'].mean() #Average price in Dublin of houses sold
 mean_sale=DFLEINSTER.groupby('COUNTY')['SALE_PRICE'].mean() #AVG per county (can use agg multiple functions, can add list to county or sale price bits)
 mean_sale.sort_values(ascending=False) #Sorting average high to low
+
 
