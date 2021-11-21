@@ -56,7 +56,12 @@ inflation=pd.DataFrame(
     {'YEAR': years,'INFLATION': percentages})
 #print(inflation)
 Leinster_inflation = Leinster.merge(inflation, on=['YEAR'])
+#print(Leinster_inflation)
+
+Leinster_inflation['SALE_ADJUSTED'] = Leinster_inflation['SALE_PRICE']*Leinster_inflation['INFLATION']
 print(Leinster_inflation)
+#WOULD NEED MODERN INFLATION AS REFERENCE
+
 
 #.drop(labels=[1,15,20], axis=0)
 #LEINSTER_AVG = LEINSTER.groupby('COUNTY')['SALE_PRICE'].agg(np.mean)
