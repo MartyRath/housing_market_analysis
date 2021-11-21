@@ -7,6 +7,7 @@ df = pd.read_csv(r'C:\Users\User\Desktop\UCD DATA\Test\Property_Price_Register_I
 pd.options.display.width= None
 pd.options.display.max_columns= None
 df.head()
+df.columns
 df.shape
 #here we see date range is 2010 - 2021-05-28
 df.iloc[[0,-1]]
@@ -31,36 +32,53 @@ df['SALE_DATE'] = pd.to_datetime(df['SALE_DATE'])
 df['YEAR'], df['MONTH'] = df['SALE_DATE'].dt.year , df['SALE_DATE'].dt.month
 # Focusing on Leinster properties, so modifying Dataframe to only contain counties in Leinster.
 Leinster = df[df['COUNTY'].isin(['Dublin', 'Laois', 'Meath', 'Kilkenny', 'Carlow', 'Wicklow', 'Wexford', 'Longford', 'Offaly', 'Kildare', 'Louth', 'Westmeath'])]
+# Creating a new CSV of Leinster (Leinster Property Price Register)
+Leinster.to_csv(r'C:\Users\User\Desktop\UCD DATA\Leinster_PPR_2010-2020.csv')
 # Will predominantly be using two Dataframes, 'Leinster', and then 'Leinster2020'
 Leinster = df[df['YEAR'] <= 2020] #more rounded results, for calculations like cheapest month, as not including unfinished year 2021
 Leinster2020= df[df['YEAR'] == 2020] #to contrast long-term vs. more recent data
+#print(Leinster)
 #*ARG against LOC
 # Alternatively, could have used loc to create 'Leinster', 'Leinster2020'
 #Leinsterloc =df.set_index('SALE_DATE') ; Leinsterloc.loc['2010':'2020'] #ALT 'Leinster' ; Leinster2020=Leinsterloc.loc['2020'] #ALT 'Leinster2020'
 ###################################################
+# Merge 'Inflation rate, average consumer prices (Annual percent change)'
+import xlrd
+inflation= pd.read_excel(r'C:\Users\User\Desktop\Inflation rate, average consumer prices (Annual percent change).xls')
+inflation.drop(['Inflation rate, average consumer prices (Annual percent change)'],axis=1,inplace=True)
+inflation.drop(labels=0, axis=0, inplace=True)
+inflation.reset_index(drop=True, inplace=True)
 
+rows=inflation.values.tolist()
+col=inflation.columns.tolist()
+
+
+#Leinster_inflation = Leinster.merge(inflation, on=[2010])
+#print(inflation)
+
+#.drop(labels=[1,15,20], axis=0)
 #LEINSTER_AVG = LEINSTER.groupby('COUNTY')['SALE_PRICE'].agg(np.mean)
 #counties=LEINSTER_AVG.index.tolist()
 #plt.scatter(x=counties, y=LEINSTER_AVG, color=['green'])
 #plt.show()
----------------
+###################################################
 #fig, ax = plt.subplots()
 #ax.plot(df2020['SALE_DATE'], df2020['SALE_PRICE'])
 #plt.show()
-------------------
+###################################################
 #print(DFLEINSTER.sort_values('SALE_PRICE', ascending=False))
 #print(DFLEINSTER[DFLEINSTER['SALE_PRICE']<10000])
 #print(DFLEINSTER['SALE_PRICE'].min())
 #Wexford= DFLEINSTER[DFLEINSTER['COUNTY']=='Wexford']
 #Wexford['SALE_PRICE'].min())
 #df2020[(df2020['COUNTY']=='Wexford') & (df2020['SALE_PRICE']<100000)]) #In 2020 there were 258 houses sold in Wexford under 100K
-Wexford=DFLEINSTER[DFLEINSTER['COUNTY']=='Wexford']
+#Wexford=DFLEINSTER[DFLEINSTER['COUNTY']=='Wexford']
 #(Wexford.sort_values('SALE_PRICE')) #THIS WORKS! Just not with Dublin, consider dropping DUB anyway
-cheap=DFLEINSTER[DFLEINSTER['SALE_PRICE']<100000]
-cheap2020 = DFLEINSTER[(DFLEINSTER['YEAR']==2020) & (DFLEINSTER['SALE_PRICE']<100000)]
+#cheap=DFLEINSTER[DFLEINSTER['SALE_PRICE']<100000]
+#cheap2020 = DFLEINSTER[(DFLEINSTER['YEAR']==2020) & (DFLEINSTER['SALE_PRICE']<100000)]
 #(cheap2020[['COUNTY','SALE_PRICE']].sort_values('SALE_PRICE'))
 #print(df2020['SALE_PRICE'].mean())
-LEINSTER2020=DFLEINSTER[DFLEINSTER['YEAR']==2020]
+#LEINSTER2020=DFLEINSTER[DFLEINSTER['YEAR']==2020]
 #(LEINSTER2020['SALE_PRICE'].mean())
 def iqr(column):
     return column.quantile(0.75) - column.quantile(0.25)
@@ -70,13 +88,13 @@ def iqr(column):
 #print(DFLEINSTER.drop_duplicates(subset='COUNTY')) # See individual counties. (for multiple conditions, pass list [] to subset)
 
 
-cheapzz = DFLEINSTER[DFLEINSTER['SALE_PRICE']<100000]
-cheapzz['COUNTY'].value_counts(sort=True) # how many sold per county under 100K
-PPC_under100K = cheapzz['COUNTY'].value_counts(normalize=True) #proportions houses sold under 100K per county
+#cheapzz = DFLEINSTER[DFLEINSTER['SALE_PRICE']<100000]
+#cheapzz['COUNTY'].value_counts(sort=True) # how many sold per county under 100K
+#PPC_under100K = cheapzz['COUNTY'].value_counts(normalize=True) #proportions houses sold under 100K per county
 
-DFLEINSTER[DFLEINSTER['COUNTY']=='Dublin']['SALE_PRICE'].mean() #Average price in Dublin of houses sold
-mean_sale=DFLEINSTER.groupby('COUNTY')['SALE_PRICE'].mean() #AVG per county (can use agg multiple functions, can add list to county or sale price bits)
-mean_sale.sort_values(ascending=False) #Sorting average high to low
+#DFLEINSTER[DFLEINSTER['COUNTY']=='Dublin']['SALE_PRICE'].mean() #Average price in Dublin of houses sold
+#mean_sale=DFLEINSTER.groupby('COUNTY')['SALE_PRICE'].mean() #AVG per county (can use agg multiple functions, can add list to county or sale price bits)
+#mean_sale.sort_values(ascending=False) #Sorting average high to low
 
 #cheapzz['COUNTY'].hist(bins=12) #confusing
 
