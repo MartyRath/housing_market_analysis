@@ -49,12 +49,14 @@ inflation.drop(['Inflation rate, average consumer prices (Annual percent change)
 inflation.drop(labels=0, axis=0, inplace=True)
 inflation.reset_index(drop=True, inplace=True)
 
-rows=inflation.values.tolist()
-col=inflation.columns.tolist()
-
-
-#Leinster_inflation = Leinster.merge(inflation, on=[2010])
+percentages=inflation.values
+percentages= percentages[0]
+years=inflation.columns.tolist()
+inflation=pd.DataFrame(
+    {'YEAR': years,'INFLATION': percentages})
 #print(inflation)
+Leinster_inflation = Leinster.merge(inflation, on=['YEAR'])
+print(Leinster_inflation)
 
 #.drop(labels=[1,15,20], axis=0)
 #LEINSTER_AVG = LEINSTER.groupby('COUNTY')['SALE_PRICE'].agg(np.mean)
