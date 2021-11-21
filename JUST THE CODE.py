@@ -1,43 +1,53 @@
+# Importing necessary packages
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+# Importing CSV as DataFrame using Pandas
 df = pd.read_csv(r'C:\Users\User\Desktop\UCD DATA\Test\Property_Price_Register_Ireland-28-05-2021.csv')
 pd.options.display.width= None
 pd.options.display.max_columns= None
-print(df.columns)
-df.drop_duplicates(subset=['SALE_DATE', 'ADDRESS']) #Make sure no duplicate inputs
+df.head()
+df.shape
+#here we see date range is 2010 - 2021-05-28
+df.iloc[[0,-1]]
+# Ensuring there isn't duplicate entries
+df.drop_duplicates(subset=['SALE_DATE', 'ADDRESS'])
+# Checking for missing values, with plot
 missing_values = df.isna().sum()
 missing_values.plot(kind='bar', rot=45)
+#plt.show()
+# Dropping unnecessary columns
 df.drop(['POSTAL_CODE', 'ADDRESS', 'IF_MARKET_PRICE', 'IF_VAT_EXCLUDED'],axis=1,inplace=True)
 df.drop(['PROPERTY_SIZE_DESC'],axis=1,inplace=True)
-description = df['PROPERTY_DESC']
+# Noticed 'PROPERTY_DESC' seems to only have two values, 'New Dwelling...' and 'Second Hand Dwelling...'. Checking this.
 for unique_values in df:
-    unique_desc=description.unique()
+    unique_desc=df['PROPERTY_DESC'].unique()
+#print(unique_desc)
+# Found there are two entries, but some are in Irish. Replacing these to with English, so only two entries remain.
 df['PROPERTY_DESC'].replace({'Teach/�ras�n C�naithe Nua': 'New Dwelling house /Apartment', 'Teach/?ras?n C?naithe Nua': 'New Dwelling house /Apartment', 'Teach/�ras�n C�naithe Ath�imhe': 'Second-Hand Dwelling house /Apartment'}, inplace=True)
+# Formatting dates in 'SALE_DATE' to be usuable.
 df['SALE_DATE'] = pd.to_datetime(df['SALE_DATE'])
+# Creating two new columns, 'YEAR' and 'MONTH', for later convenience.
 df['YEAR'], df['MONTH'] = df['SALE_DATE'].dt.year , df['SALE_DATE'].dt.month
+# Focusing on Leinster properties, so modifying Dataframe to only contain counties in Leinster.
 Leinster = df[df['COUNTY'].isin(['Dublin', 'Laois', 'Meath', 'Kilkenny', 'Carlow', 'Wicklow', 'Wexford', 'Longford', 'Offaly', 'Kildare', 'Louth', 'Westmeath'])]
-
+# Will predominantly be using two Dataframes, 'Leinster', and then 'Leinster2020'
 Leinster = df[df['YEAR'] <= 2020] #more rounded results, for calculations like cheapest month, as not including unfinished year 2021
-Leinster2020= df[df['YEAR'] == 2020]
-
-#twentytwentyloc =df.set_index('SALE_DATE') #ALT using loc, useful for range/partial dates
-#twentytwentyloc.loc['2020'] #twentytwentyloc.loc['2010':'2020']
+Leinster2020= df[df['YEAR'] == 2020] #to contrast long-term vs. more recent data
+#*ARG against LOC
+# Alternatively, could have used loc to create 'Leinster', 'Leinster2020'
+#Leinsterloc =df.set_index('SALE_DATE') ; Leinsterloc.loc['2010':'2020'] #ALT 'Leinster' ; Leinster2020=Leinsterloc.loc['2020'] #ALT 'Leinster2020'
 ###################################################
-#df.set_index('COUNTY', inplace=True)
-#LEINSTER = df.loc[['Dublin', 'Laois', 'Meath', 'Kilkenny', 'Carlow', 'Wicklow', 'Wexford', 'Longford', 'Offaly', 'Kildare', 'Louth', 'Westmeath']]
+
 #LEINSTER_AVG = LEINSTER.groupby('COUNTY')['SALE_PRICE'].agg(np.mean)
 #counties=LEINSTER_AVG.index.tolist()
 #plt.scatter(x=counties, y=LEINSTER_AVG, color=['green'])
 #plt.show()
-
+---------------
 #fig, ax = plt.subplots()
 #ax.plot(df2020['SALE_DATE'], df2020['SALE_PRICE'])
 #plt.show()
-
-Leinster = df['COUNTY'].isin(['Dublin', 'Laois', 'Meath', 'Kilkenny', 'Carlow', 'Wicklow', 'Wexford', 'Longford', 'Offaly', 'Kildare', 'Louth', 'Westmeath'])
-DFLEINSTER = df[Leinster] # SEE ARGUMENT AGAINST LOC
-
+------------------
 #print(DFLEINSTER.sort_values('SALE_PRICE', ascending=False))
 #print(DFLEINSTER[DFLEINSTER['SALE_PRICE']<10000])
 #print(DFLEINSTER['SALE_PRICE'].min())
@@ -72,7 +82,3 @@ mean_sale.sort_values(ascending=False) #Sorting average high to low
 
 #mean_sale.plot(kind='bar', title='Average Property Price in Leinster 2010-2020', rot=45) #USE THIS. adjust image in bar showapplication
 #plt.show()
-
-
-
-
