@@ -48,16 +48,16 @@ Leinster = Leinster[Leinster['COUNTY'].isin(['Dublin', 'Laois', 'Meath', 'Kilken
 # Creating a new CSV of Leinster (Leinster Property Price Register)
 Leinster.to_csv(r'C:\Users\User\Desktop\UCD DATA\Leinster_PPR_2010-2020.csv')
 
-# Will predominantly be using two Dataframes, 'Leinster', and then 'Leinster2020'
-Leinster = Leinster[Leinster['YEAR'] <= 2020] #more rounded results, for calculations like cheapest month, as not including unfinished year 2021
+# Limiting data from 2010-2020. More rounded results, for calculations like cheapest month, as not including unfinished year 2021
+Leinster = Leinster[Leinster['YEAR'] <= 2020]
 
 # Alternatively, could have used loc to create 'Leinster'
-#Leinsterloc =Leinster.set_index('SALE_DATE') ; Leinsterloc.loc['2010':'2020']
+# Leinsterloc =Leinster.set_index('SALE_DATE') ; Leinsterloc.loc['2010':'2020']
 
 # Merge. Import: 'Inflation rate, average consumer prices (Annual percent change)'
 inflation= pd.read_excel(r'C:\Users\User\Desktop\Inflation rate, average consumer prices (Annual percent change).xls')
 
-# Cleaning
+# Cleaning inflation dataframe
 inflation.drop(['Inflation rate, average consumer prices (Annual percent change)'],axis=1,inplace=True)
 inflation.drop(labels=0, axis=0, inplace=True)
 inflation.reset_index(drop=True, inplace=True)
@@ -72,31 +72,22 @@ inflation=pd.DataFrame(
 # Mergining Inflation with Leinster
 Leinster = Leinster.merge(inflation, on=['YEAR'])
 
-Leinster2020= Leinster[Leinster['YEAR'] == 2020] #to contrast long-term vs. more recent data
+Leinster2020= Leinster[Leinster['YEAR'] == 2020]
 Leinster_budget=Leinster[Leinster['SALE_PRICE']<110000]
 #################################################################################
-############################################################################################################
-
-###################################################
-
-
-
-
-###################################################
-##############SALE DISTRIBUTION MONTHLY, no correlation between high/low sales and cheapest month...##################################
-salespermonth= Leinster.groupby('MONTH')['COUNTY'].count()
-
-#plt.xticks([1,2,3,4,5,6,7,8,9,10,11,12], ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'])
-#salespermonth.plot(kind='bar', rot=45)
-#plt.show()
-
 ###############################
 # Which county has most cheap houses?
+salespermont= Leinster_budget['COUNTY']
+#print(Leinster_budget)
+#salespermonth.plot(kind='bar', rot=45)
+plt.show()
 # Are second hand houses much cheaper?
 oldnew = Leinster.groupby('PROPERTY_DESC')['SALE_PRICE'].mean()
 #print(oldnew)
 
 # not much difference, though worth checking under 100K
+oldnewwithbudget= Leinster_budget.groupby('PROPERTY_DESC')['SALE_PRICE'].mean()
+#print(oldnewwithbudget)
 #Distribution house prices under 100K
 
 
@@ -127,3 +118,8 @@ def iqr(column):
 #PPC_under100K = cheapzz['COUNTY'].value_counts(normalize=True) #proportions houses sold under 100K per county
 
 #Leinster[Leinster['COUNTY']=='Dublin']['SALE_PRICE'].mean() #Average price in Dublin of houses sold
+###############
+#sully.plot(x=’date’, y=’weight’, kind=’line’, rot=45)
+#
+#start 278554.521035
+##########
