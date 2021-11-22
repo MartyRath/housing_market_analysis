@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import xlrd
 # Importing CSV as DataFrame using Pandas
 df = pd.read_csv(r'C:\Users\User\Desktop\UCD DATA\Test\Property_Price_Register_Ireland-28-05-2021.csv')
 pd.options.display.width= None
@@ -15,11 +16,10 @@ df.iloc[[0,-1]]
 df.drop_duplicates(subset=['SALE_DATE', 'ADDRESS'])
 # Checking for missing values, with plot
 missing_values = df.isna().sum()
-missing_values.plot(kind='bar', rot=45)
+missing_values.plot(kind='bar', rot=45, title='Missing Values')
 #plt.show()
 # Dropping unnecessary columns
-df.drop(['POSTAL_CODE', 'ADDRESS', 'IF_MARKET_PRICE', 'IF_VAT_EXCLUDED'],axis=1,inplace=True)
-df.drop(['PROPERTY_SIZE_DESC'],axis=1,inplace=True)
+df.drop(['POSTAL_CODE', 'PROPERTY_SIZE_DESC', 'ADDRESS', 'IF_MARKET_PRICE', 'IF_VAT_EXCLUDED'],axis=1,inplace=True)
 # Noticed 'PROPERTY_DESC' seems to only have two values, 'New Dwelling...' and 'Second Hand Dwelling...'. Checking this.
 for unique_values in df:
     unique_desc=df['PROPERTY_DESC'].unique()
@@ -38,6 +38,10 @@ Leinster.to_csv(r'C:\Users\User\Desktop\UCD DATA\Leinster_PPR_2010-2020.csv')
 Leinster = df[df['YEAR'] <= 2020] #more rounded results, for calculations like cheapest month, as not including unfinished year 2021
 Leinster2020= df[df['YEAR'] == 2020] #to contrast long-term vs. more recent data
 #print(Leinster)
+
+
+
+
 #*ARG against LOC
 # Alternatively, could have used loc to create 'Leinster', 'Leinster2020'
 #Leinsterloc =df.set_index('SALE_DATE') ; Leinsterloc.loc['2010':'2020'] #ALT 'Leinster' ; Leinster2020=Leinsterloc.loc['2020'] #ALT 'Leinster2020'
@@ -45,18 +49,19 @@ Leinster2020= df[df['YEAR'] == 2020] #to contrast long-term vs. more recent data
 # Merge 'Inflation rate, average consumer prices (Annual percent change)'
 import xlrd
 inflation= pd.read_excel(r'C:\Users\User\Desktop\Inflation rate, average consumer prices (Annual percent change).xls')
+# Cleaning
 inflation.drop(['Inflation rate, average consumer prices (Annual percent change)'],axis=1,inplace=True)
 inflation.drop(labels=0, axis=0, inplace=True)
 inflation.reset_index(drop=True, inplace=True)
-
+# This is in the wrong shape to merge, with years as columns, as percentage change as the only row.
 percentages=inflation.values
 percentages= percentages[0]
 years=inflation.columns.tolist()
 inflation=pd.DataFrame(
     {'YEAR': years,'INFLATION': percentages})
-#print(inflation)
+
 Leinster_inflation = Leinster.merge(inflation, on=['YEAR'])
-#print(Leinster_inflation)
+print(Leinster_inflation)
 
 Leinster_inflation['SALE_ADJUSTED'] = Leinster_inflation['SALE_PRICE']*Leinster_inflation['INFLATION']
 print(Leinster_inflation)
