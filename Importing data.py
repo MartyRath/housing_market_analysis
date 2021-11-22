@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sb
+import seaborn as sns
 
 #importing the csv dataset and converting to dataframe using pandas
 df = pd.read_csv(r'C:\Users\User\Desktop\UCD DATA\Test\Property_Price_Register_Ireland-28-05-2021.csv')
@@ -65,5 +65,3 @@ description = df['PROPERTY_DESC']
 #cheap = df.loc[:, 'SALE_PRICE']
 #cheap = df.iloc[:, 3]
 #print(cheap) #All properties under 100000
-
-#print(df.describe())

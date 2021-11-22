@@ -2,7 +2,7 @@
 SALE_PRICE_STATS = df.groupby('YEAR')['SALE_PRICE'].agg([np.min, np.max, np.mean, np.median])
 
 mean = SALE_PRICE_STATS['mean']
-for unique_values in df
+for unique_values in df:
     year=(df['YEAR'].unique())
 
 plt.bar(x=year, height=mean, color=['green'])
