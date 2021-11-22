@@ -45,11 +45,12 @@ Leinster['YEAR'], Leinster['MONTH'] = Leinster['SALE_DATE'].dt.year , Leinster['
 # Focusing on Leinster properties, so modifying Dataframe to only contain counties in Leinster.
 Leinster = Leinster[Leinster['COUNTY'].isin(['Dublin', 'Laois', 'Meath', 'Kilkenny', 'Carlow', 'Wicklow', 'Wexford', 'Longford', 'Offaly', 'Kildare', 'Louth', 'Westmeath'])]
 
-# Creating a new CSV of Leinster (Leinster Property Price Register)
-Leinster.to_csv(r'C:\Users\User\Desktop\UCD DATA\Leinster_PPR_2010-2020.csv')
 
 # Limiting data from 2010-2020. More rounded results, for calculations like cheapest month, as not including unfinished year 2021
 Leinster = Leinster[Leinster['YEAR'] <= 2020]
+
+# Creating a new CSV of Leinster (Leinster Property Price Register)
+Leinster.to_csv(r'C:\Users\User\Desktop\UCD DATA\Leinster_PPR_2010-2020.csv')
 
 # Alternatively, could have used loc to create 'Leinster'
 # Leinsterloc =Leinster.set_index('SALE_DATE') ; Leinsterloc.loc['2010':'2020']
@@ -69,13 +70,16 @@ years=inflation.columns.tolist()
 inflation=pd.DataFrame(
     {'YEAR': years,'INFLATION': percentages})
 
+# Inflation Dataframe backup
+inflation.to_csv(r'C:\Users\User\Desktop\UCD DATA\Inflation.csv')
+
 # Mergining Inflation with Leinster
 Leinster = Leinster.merge(inflation, on=['YEAR'])
 
 Leinster2020= Leinster[Leinster['YEAR'] == 2020]
 Leinster_budget=Leinster[Leinster['SALE_PRICE']<110000]
+#Alternativively, could have used Leinster.loc[:, 'SALE_PRICE'], Leinster.iloc[:, 3]
 #################################################################################
-###############################
 # Which county has most cheap houses?
 salespermont= Leinster_budget['COUNTY']
 #print(Leinster_budget)
