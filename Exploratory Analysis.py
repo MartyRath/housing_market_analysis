@@ -8,7 +8,7 @@ Leinster_budget=Leinster[Leinster['SALE_PRICE']<110000]
 Leinster2020= Leinster[Leinster['YEAR'] == 2020]
 
 SALE_PRICE_STATS = Leinster2020.groupby('YEAR')['SALE_PRICE'].agg([np.min, np.max, np.mean, np.median])
-print(SALE_PRICE_STATS)
+#print(SALE_PRICE_STATS)
 
 # Are second hand houses much cheaper?
 oldnew = Leinster.groupby('PROPERTY_DESC')['SALE_PRICE'].mean() # not much difference

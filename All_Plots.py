@@ -11,7 +11,6 @@ Leinster_budget=Leinster[Leinster['SALE_PRICE']<110000]
 SALE_PRICE_STATS = Leinster.groupby('YEAR')['SALE_PRICE'].agg([np.min, np.max, np.mean, np.median])
 
 mean = SALE_PRICE_STATS['mean']
-print(mean)
 for unique_values in Leinster:
     year=(Leinster['YEAR'].unique()) #output= years2010-2020
 
