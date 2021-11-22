@@ -73,57 +73,10 @@ inflation=pd.DataFrame(
 # Inflation Dataframe backup
 inflation.to_csv(r'C:\Users\User\Desktop\UCD DATA\Inflation.csv')
 
-# Mergining Inflation with Leinster
+# Merging Inflation with Leinster
 Leinster = Leinster.merge(inflation, on=['YEAR'])
 
 Leinster2020= Leinster[Leinster['YEAR'] == 2020]
 Leinster_budget=Leinster[Leinster['SALE_PRICE']<110000]
 #Alternativively, could have used Leinster.loc[:, 'SALE_PRICE'], Leinster.iloc[:, 3]
-#################################################################################
-# Which county has most cheap houses?
-salespermont= Leinster_budget['COUNTY']
-#print(Leinster_budget)
-#salespermonth.plot(kind='bar', rot=45)
-plt.show()
-# Are second hand houses much cheaper?
-oldnew = Leinster.groupby('PROPERTY_DESC')['SALE_PRICE'].mean()
-#print(oldnew)
 
-# not much difference, though worth checking under 100K
-oldnewwithbudget= Leinster_budget.groupby('PROPERTY_DESC')['SALE_PRICE'].mean()
-#print(oldnewwithbudget)
-#Distribution house prices under 100K
-
-
-#print(Leinster.sort_values('SALE_PRICE', ascending=False))
-#print(Leinster[Leinster['SALE_PRICE']<110000])
-#print(Leinster['SALE_PRICE'].min())
-#Wexford= Leinster[Leinster['COUNTY']=='Wexford']
-#Wexford['SALE_PRICE'].min())
-#Leinster2020[(Leinster2020['COUNTY']=='Wexford') & (Leinster2020['SALE_PRICE']<100000)]) #In 2020 there were 258 houses sold in Wexford under 100K
-#Wexford=Leinster[Leinster['COUNTY']=='Wexford']
-#(Wexford.sort_values('SALE_PRICE')) #THIS WORKS! Just not with Dublin, consider dropping DUB anyway
-#cheap=Leinster[Leinster['SALE_PRICE']<100000]
-#cheap2020 = Leinster[(Leinster['YEAR']==2020) & (Leinster['SALE_PRICE']<100000)]
-#(cheap2020[['COUNTY','SALE_PRICE']].sort_values('SALE_PRICE'))
-#print(Leinster2020['SALE_PRICE'].mean())
-#Leinster2020=Leinster[Leinster['YEAR']==2020]
-#(Leinster2020['SALE_PRICE'].mean())
-def iqr(column):
-    return column.quantile(0.75) - column.quantile(0.25)
-#print(Leinster2020['SALE_PRICE'].agg(iqr)) #because there's outliers in this data, IQR is preferred over standard deviation. Shows where the bulk of the data lies
-#print(Leinster2020['SALE_PRICE'].median())
-
-#print(Leinster.drop_duplicates(subset='COUNTY')) # See individual counties. (for multiple conditions, pass list [] to subset)
-
-
-#cheapzz = Leinster[Leinster['SALE_PRICE']<100000]
-#cheapzz['COUNTY'].value_counts(sort=True) # how many sold per county under 100K
-#PPC_under100K = cheapzz['COUNTY'].value_counts(normalize=True) #proportions houses sold under 100K per county
-
-#Leinster[Leinster['COUNTY']=='Dublin']['SALE_PRICE'].mean() #Average price in Dublin of houses sold
-###############
-#sully.plot(x=’date’, y=’weight’, kind=’line’, rot=45)
-#
-#start 278554.521035
-##########
