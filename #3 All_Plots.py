@@ -53,7 +53,7 @@ plt.title('Average Monthly Sale Prices in Leinster 2010-2020')
 plt.yticks([280000, 290000, 300000, 310000, 320000, 330000, 340000, 350000], ['280K', '290K', '300K', '310K', '320K', '330K', '340K', '350K'])
 plt.xticks([1,2,3,4,5,6,7,8,9,10,11,12], ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'])
 #plt.show()
-##############################################################################################################
+###############################################################################################################
 # CHART #6: 'Total Sales Distribution per Month in Leinster 2010-2020'
 salespermonth= Leinster.groupby('MONTH')['COUNTY'].count()
 salespermonth.plot(kind='bar', rot=45, title= 'Total Sales Distribution per Month in Leinster 2010-2020')
