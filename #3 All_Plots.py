@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 Leinster = pd.read_csv(r'C:\Users\User\Desktop\UCD DATA\Leinster_PPR_2010-2020.csv')
 inflation = pd.read_csv(r'C:\Users\User\Desktop\UCD DATA\Inflation.csv')
@@ -11,10 +12,11 @@ Leinster_budget=Leinster[Leinster['SALE_PRICE']<110000]
 SALE_PRICE_STATS = Leinster.groupby('YEAR')['SALE_PRICE'].agg([np.min, np.max, np.mean, np.median])
 
 mean = SALE_PRICE_STATS['mean']
+#Getting list of years, alt to just using .unique()
 for unique_values in Leinster:
-    year=(Leinster['YEAR'].unique()) #output= years2010-2020
+    years=(Leinster['YEAR'].unique()) #output= years 2010-2020
 
-plt.bar(x=year, height=mean, color=['green'])
+plt.bar(x=years, height=mean, color=['green'])
 plt.xlabel('Year')
 plt.ylabel('Sale Price (€)')
 plt.title('Average Sale Price per Year in Leinster 2010-2020')
@@ -40,12 +42,10 @@ mean_sale.plot(kind='bar', title='Average Sale Price per County in Leinster 2010
 ##############################################################################################################
 # CHART #5: 'Average Monthly Sale Prices in Leinster 2010-2020'
 SALE_STATS_MONTH = Leinster.groupby('MONTH')['SALE_PRICE'].mean()
-
 mean = SALE_STATS_MONTH
-for unique_values in Leinster:
-    month=(Leinster['MONTH'].unique()) #output=months
+months = Leinster['MONTH'].unique()
 
-plt.bar(x=month, height=mean, color=['orange'])
+plt.bar(x=months, height=mean, color=['orange'])
 plt.ylim(280000, 350000)
 plt.xlabel('Month')
 plt.ylabel('Sale Price (€)')
