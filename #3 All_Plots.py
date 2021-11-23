@@ -55,6 +55,7 @@ plt.xticks([1,2,3,4,5,6,7,8,9,10,11,12], ['JAN','FEB','MAR','APR','MAY','JUN','J
 #plt.show()
 ##############################################################################################################
 # CHART #6: 'Total Sales Distribution per Month in Leinster 2010-2020'
-salespermonth= Leinster.groupby('MONTH')['COUNTY'].count()
-salespermonth.plot(kind='bar', rot=45, title= 'Total Sales Distribution per Month in Leinster 2010-2020')
+distribution=sns.countplot(x='MONTH', data=Leinster)
+distribution.set_title('Total Sales Distribution per Month in Leinster 2010-2020')
+distribution.set_xticklabels(['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'])
 #plt.show()
