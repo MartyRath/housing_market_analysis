@@ -12,11 +12,13 @@ Leinster_budget=Leinster[Leinster['SALE_PRICE']<110000]
 SALE_PRICE_STATS = Leinster.groupby('YEAR')['SALE_PRICE'].agg([np.min, np.max, np.mean, np.median])
 
 mean = SALE_PRICE_STATS['mean']
-#Getting list of years, alt to just using .unique()
+# Getting list of years, alt to just using .unique()
 for unique_values in Leinster:
     years=(Leinster['YEAR'].unique()) #output= years 2010-2020
 
 plt.bar(x=years, height=mean, color=['green'])
+ax = plt.gca()
+ax.set_ylim([180000, 400000])
 plt.xlabel('Year')
 plt.ylabel('Sale Price (€)')
 plt.title('Average Sale Price per Year in Leinster 2010-2020')

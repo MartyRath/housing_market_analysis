@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 
 Leinster = pd.read_csv(r'C:\Users\User\Desktop\UCD DATA\Leinster_PPR_2010-2020.csv')
 inflation = pd.read_csv(r'C:\Users\User\Desktop\UCD DATA\Inflation.csv')
@@ -27,7 +26,7 @@ Wexford['SALE_PRICE'].min()
 # How many houses sold under 110K in Wexford 2020 # 296
 Leinster2020[(Leinster2020['COUNTY']=='Wexford') & (Leinster2020['SALE_PRICE']<110000)]
 
-# Custom code using IQR, instead of standard deviation, as there's outliers property prices. This shows where most of the data lies.
+# Custom code using IQR, instead of standard deviation, as there's outliers in property prices. This shows where most of the data lies.
 def iqr(column):
     return column.quantile(0.75) - column.quantile(0.25)
 IQR2020 = Leinster2020['SALE_PRICE'].agg(iqr)
