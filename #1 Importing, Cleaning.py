@@ -6,7 +6,7 @@ import xlrd
 import seaborn as sns
 
 # Importing CSV as DataFrame using Pandas
-Leinster = pd.read_csv(r'C:\Users\User\Desktop\UCD DATA\Test\Property_Price_Register_Ireland-28-05-2021.csv')
+Leinster = pd.read_csv(r'C:\Users\User\PycharmProjects\MartyRath\Property_Price_Register_Ireland-28-05-2021.csv')
 pd.options.display.width= None
 pd.options.display.max_columns= None
 Leinster.head()
@@ -54,11 +54,11 @@ Leinster = Leinster[Leinster['YEAR'] <= 2020]
 # Leinsterloc =Leinster.set_index('SALE_DATE') ; Leinsterloc.loc['2010':'2020']
 
 # Creating a new CSV backup of Leinster (Leinster Property Price Register)
-Leinster.to_csv(r'C:\Users\User\Desktop\UCD DATA\Leinster_PPR_2010-2020.csv')
+Leinster.to_csv(r'C:\Users\User\PycharmProjects\MartyRath\Leinster_PPR_2010-2020.csv')
 
 # To merge excel for inflation column.
 # Import: 'Inflation rate, average consumer prices (Annual percent change)'
-inflation= pd.read_excel(r'C:\Users\User\Desktop\Inflation rate, average consumer prices (Annual percent change).xls')
+inflation= pd.read_excel(r'C:\Users\User\PycharmProjects\MartyRath\Inflation rate, average consumer prices (Annual percent change).xls')
 
 # Cleaning inflation Dataframe
 inflation.drop(['Inflation rate, average consumer prices (Annual percent change)'],axis=1,inplace=True)
@@ -74,7 +74,7 @@ inflation=pd.DataFrame(
     {'YEAR': years,'INFLATION': percentages})
 
 # Inflation Dataframe backup
-inflation.to_csv(r'C:\Users\User\Desktop\UCD DATA\Inflation.csv')
+inflation.to_csv(r'C:\Users\User\PycharmProjects\MartyRath\Inflation.csv')
 
 # Merging 'inflation' with 'Leinster'
 Leinster = Leinster.merge(inflation, on=['YEAR'])
