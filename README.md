@@ -1,6 +1,7 @@
 # UCDPA_MartyRath - Using data analytics to access the housing market in order to purchase my first home
 
-See 'Project Report Marty Rath' for the final result. 
+See 'Project Report Marty Rath' for the final result.
+
 I used the insights from my Data Analytics course project to purchase my first home. Using the Property Price Register as my main data source, I accessed location, pricing, and inflation for my findings. This proved crucial to finding my first home in my preferred location and within my price-range where I am now happily living.
 
 
